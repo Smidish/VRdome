@@ -10,6 +10,7 @@ public class InteractionGUI : MonoBehaviour {
     public GameObject TopicCanvas;
     public Material dissolveMat;
     public float gazeTime = 2f;
+    public GameObject NextBubble;
 
     private float timer = 1.1f;
     private bool gazedAt;
@@ -17,11 +18,17 @@ public class InteractionGUI : MonoBehaviour {
 
     private float dissolveInt = 0.9f;
     private Vector3 defaultScale;
+    private Vector3 defaultScale2;
+    private Vector3 defaultScale3;
 
     void Start()
     {
         Transform child = transform.GetChild(0);
         defaultScale = child.localScale;
+        Transform child2 = transform.GetChild(1);
+        defaultScale2 = child2.localScale;
+        Transform child3 = transform.GetChild(2);
+        defaultScale3 = child3.localScale;
     }
     void Update()
     {
@@ -64,6 +71,10 @@ public class InteractionGUI : MonoBehaviour {
         timer = 1f;
         Transform child = transform.GetChild(0);
         child.localScale = defaultScale;
+        Transform child2 = transform.GetChild(1);
+        child2.localScale = defaultScale2;
+        Transform child3 = transform.GetChild(2);
+        child3.localScale = defaultScale3;
         Debug.Log(defaultScale);
         SelectedObject.SetActive(true);
         dissolveMat.SetFloat("Vector1_BA4DED15", 1);
@@ -80,9 +91,10 @@ public class InteractionGUI : MonoBehaviour {
     {
         TopicCanvas.SetActive(true);
         TopicCanvas.transform.position = new Vector3(SelectedObject.transform.position.x, 2, SelectedObject.transform.position.z);
-        SelectedObject.SetActive(false);      
-        
-        
+        SelectedObject.SetActive(false);
+        NextBubble.SetActive(true);
+
+
     //Destroy(SelectedObject);
 
     }
