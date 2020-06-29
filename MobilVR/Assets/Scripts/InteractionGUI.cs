@@ -16,7 +16,7 @@ public class InteractionGUI : MonoBehaviour {
     private bool gazedAt;
     private float sizze = 1.5F;
 
-    private float dissolveInt = 0.9f;
+    private float dissolveInt = 2.5f;
     private Vector3 defaultScale;
     private Vector3 defaultScale2;
     private Vector3 defaultScale3;
@@ -44,14 +44,16 @@ public class InteractionGUI : MonoBehaviour {
             child.localScale = newScale;
             child2.localScale = newScale2;
             child3.localScale = newScale3;
-            dissolveMat.SetFloat("Vector1_BA4DED15", timer/gazeTime * dissolveInt);
+
+            //von -1 bis 1
+            dissolveMat.SetFloat("Vector1_BA4DED15", timer / gazeTime *-1f +0.8f);
 
             //SelectedObject.GetComponent<Renderer>().material = null;
-            //Debug.Log(gazeTime * dissolveInt * -1f);
-
+            //Debug.Log(timer / gazeTime * dissolveInt * -1 + 1.5f);
+            //Debug.Log(timer / gazeTime * -1f + 0.5f);
             if (timer >= gazeTime)
             {
-                Debug.Log("hi");
+                //Debug.Log("hi");
                 timer = 1f;
                 selectBubble();
                 //ExecuteEvents.Execute(gameObject, new PointerEventData(EventSystem.current), ExecuteEvents.pointerDownHandler);
@@ -81,11 +83,6 @@ public class InteractionGUI : MonoBehaviour {
 
     }
 
-    public void PointerDown()
-    {
-        Debug.Log("Pointer Down");
-       // Destroy(SelectedObject);
-    }
 
     private void selectBubble()
     {
@@ -93,9 +90,9 @@ public class InteractionGUI : MonoBehaviour {
         TopicCanvas.transform.position = new Vector3(SelectedObject.transform.position.x, 2, SelectedObject.transform.position.z);
         SelectedObject.SetActive(false);
         NextBubble.SetActive(true);
+        dissolveMat.SetFloat("Vector1_BA4DED15", 1);
 
-
-    //Destroy(SelectedObject);
+        //Destroy(SelectedObject);
 
     }
 }
