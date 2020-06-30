@@ -23,7 +23,7 @@ public class dropOnTable : MonoBehaviour
         if (lookedat)
         {
             timer += Time.deltaTime;
-            Debug.Log(timer);
+            //Debug.Log(timer);
             if (timer >= grabTime)
             {
                 dropObj();

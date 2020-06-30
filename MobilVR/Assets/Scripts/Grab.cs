@@ -12,6 +12,7 @@ public class Grab : MonoBehaviour
     private GameObject gazePoint;
     public GameObject table;
     public GameObject PlayerHand;
+    public GameObject ringanimation;
     Rigidbody _rb;
 
     private void Start()
@@ -19,6 +20,7 @@ public class Grab : MonoBehaviour
         lookedat = false;
         carried = false;
         gazePoint = GameObject.Find("GvrReticlePointer");
+        //ringanimation = GameObject.Find("coolparticles");
         _rb = selObj.GetComponent<Rigidbody>();
     }
     private void Update()
@@ -56,6 +58,10 @@ public class Grab : MonoBehaviour
         selObj.transform.localPosition = new Vector3(0f,0.1f,0f);
         _rb.isKinematic = true;
         carried = true;
+
+        
+        Debug.Log(ringanimation);
+        ringanimation.SetActive(true);
     }
     private void GrabEnd()
     {
