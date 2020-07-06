@@ -7,26 +7,30 @@ public class dropOnTable : MonoBehaviour
 
     private bool lookedat;
     private float timer;
-    private float grabTime;
+    public float grabTime = 2f;
 
     public bool DropObj;
+    private GameObject sceneMan;
     // Start is called before the first frame update
     void Start()
     {
+        sceneMan = GameObject.Find("SceneManager");
         lookedat = false;
+        timer = 0;
         DropObj = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (lookedat)
+        if (lookedat && sceneMan.GetComponent<SceneManagerScript>().SomethingIsCarried)
         {
             timer += Time.deltaTime;
             //Debug.Log(timer);
             if (timer >= grabTime)
             {
                 dropObj();
+                return;
             }
         }
     }
@@ -40,10 +44,15 @@ public class dropOnTable : MonoBehaviour
     {
         lookedat = false;
         DropObj = false;
+        timer = 0;
     }
 
     private void dropObj()
     {
-        DropObj = true;
+        DropObj = true; //in grab funktion
+        lookedat = false;
+        timer = 0;
+        sceneMan.GetComponent<SceneManagerScript>().SomethingIsCarried = false;
+        Debug.Log("dropOnTableDrop");
     }
 }

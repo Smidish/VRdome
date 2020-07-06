@@ -13,6 +13,7 @@ public class Grab : MonoBehaviour
     public GameObject table;
     public GameObject PlayerHand;
     public GameObject ringanimation;
+    private GameObject SceneMan;
     Rigidbody _rb;
 
     private void Start()
@@ -22,19 +23,21 @@ public class Grab : MonoBehaviour
         gazePoint = GameObject.Find("GvrReticlePointer");
         //ringanimation = GameObject.Find("coolparticles");
         _rb = selObj.GetComponent<Rigidbody>();
+        SceneMan = GameObject.Find("SceneManager");
     }
     private void Update()
     {
         if (lookedat)
         {
             timer += Time.deltaTime;
-            if (timer >= grabTime || carried)
+            if (timer >= grabTime && !SceneMan.GetComponent<SceneManagerScript>().SomethingIsCarried)
             {
                 GrabStart();
             }
         }
-        if (table.GetComponent<dropOnTable>().DropObj && carried)
+        if (table.GetComponent<dropOnTable>().DropObj && carried/*SceneMan.GetComponent<SceneManagerScript>().SomethingIsCarried*/)
         {
+            Debug.Log("HI from Grab End Grab.cs");
             GrabEnd();    
         }
     }
@@ -50,9 +53,6 @@ public class Grab : MonoBehaviour
     }
 
     private void GrabStart() {
-        //Vector3 offsetX = new Vector3(2,0,-1);
-        //Ray ray = new Ray(gazePoint.transform.position, gazePoint.transform.forward);
-        //transform.position = ray.GetPoint(4);
 
         selObj.transform.SetParent(PlayerHand.transform);
         selObj.transform.localPosition = new Vector3(0f,0.1f,0f);
@@ -60,18 +60,24 @@ public class Grab : MonoBehaviour
         carried = true;
 
         
-        Debug.Log(ringanimation);
+        Debug.Log("Im lifted!");
         ringanimation.SetActive(true);
+        SceneMan.GetComponent<SceneManagerScript>().SomethingIsCarried = true;
+        timer = 0f;
     }
     private void GrabEnd()
     {
-        //Ray ray = new Ray(gazePoint.transform.position, gazePoint.transform.forward);
-        selObj.transform.SetParent(GameObject.Find("Interaction").transform);
+
+        //hier schönere Variatne für Drop
+        selObj.transform.SetParent(GameObject.Find("Table").transform);
         transform.position = transform.position;
         Debug.Log("drop");
+        ringanimation.SetActive(false);
         carried = false;
-        lookedat = false;
+        //lookedat = false;
         timer = 0f;
         _rb.isKinematic = false;
+        SceneMan.GetComponent<SceneManagerScript>().droppedObject = selObj;
+        SceneMan.GetComponent<SceneManagerScript>().SomethingIsCarried = false;
     }
 }
